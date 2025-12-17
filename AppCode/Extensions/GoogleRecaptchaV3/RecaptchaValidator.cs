@@ -47,13 +47,6 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
 
       using (var httpClient = new HttpClient())
       {
-        // var form = new List<KeyValuePair<string, string>>
-        // {
-        //   new KeyValuePair<string, string>("secret", privateKey),
-        //   new KeyValuePair<string, string>("response", token)
-        // };
-
-        // same but as dictionary
         var form = new Dictionary<string, string>
         {
           { "secret", privateKey },

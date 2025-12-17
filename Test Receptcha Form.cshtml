@@ -4,13 +4,8 @@
   var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
   var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
 
-  var verifyUrl = Link.To(
-    api: $"{MyView.Edition}/api/TestRecaptcha/Verify",
-    parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
-  );
-
   var submitUrl = Link.To(
-    api: $"{MyView.Edition}/api/DemoForm/Submit",
+    api: $"{MyView.Edition}/api/TestForm/SubmitAsync",
     parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
   );
 
@@ -47,21 +42,13 @@
         button.disabled = true;
         try {
           const token = await grecaptcha.execute(data.siteKey, { action: "submit" });
-          
-          const verify = await fetch(data.verifyUrl, {
+
+          await fetch(data.submitUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token })
-          }).then(r => r.json());
-          
-          if (verify?.isValid) {
-            await fetch(data.submitUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message })
-            });
-            input.value = "";
-          }
+            body: JSON.stringify({ message, token })
+          });
+          input.value = "";
         } finally {
           button.disabled = false;
         }
@@ -72,7 +59,6 @@
   @Kit.Page.TurnOn("window.recaptchaFormInit()", data: new {
     wrapperId = wrapperId,
     siteKey = siteKey,
-    verifyUrl = verifyUrl,
     submitUrl = submitUrl
   })
 }
