@@ -1,0 +1,45 @@
+@inherits Custom.Hybrid.RazorTyped
+
+@{
+  var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
+  var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
+
+  var verifyUrl = Link.To(
+    api: "api/TestRecaptcha/Verify",
+    parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
+  );
+}
+
+<div class="app-mobius6-recaptcha" data-sitekey="@siteKey"></div>
+<div class="recaptcha-status" style="margin-top:6px;font-size:13px;"></div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
+
+<script>
+(() => {
+  const recap = document.querySelector('.app-mobius6-recaptcha');
+  const statusEl = document.querySelector('.recaptcha-status');
+
+  if (!recap || !statusEl) return;
+
+  grecaptcha.ready(() => {
+    grecaptcha.execute(recap.dataset.sitekey, { action: 'submit' })
+      .then(token =>
+        fetch('@verifyUrl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        })
+      )
+      .then(r => r.json())
+      .then(result => {
+        statusEl.textContent = result.isValid
+          ? `Captcha accepted (score: ${result.score ?? 'n/a'})`
+          : `Captcha blocked (score: ${result.score ?? 'n/a'})`;
+      })
+      .catch(() => {
+        statusEl.textContent = 'Captcha check failed';
+      });
+  });
+})();
+</script>

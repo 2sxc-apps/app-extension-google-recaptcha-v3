@@ -1,0 +1,84 @@
+@inherits Custom.Hybrid.RazorTyped
+
+@{
+  var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
+  var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
+
+  var verifyUrl = Link.To(
+    api: $"{MyView.Edition}/api/TestRecaptcha/Verify",
+    parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
+  );
+
+  var submitUrl = Link.To(
+    api: $"{MyView.Edition}/api/DemoForm/Submit",
+    parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
+  );
+
+  var wrapperId = "recaptcha-form-" + UniqueKey;
+}
+
+<div id="@wrapperId" class="recaptcha-form">
+  <div class="mb-2">
+    <label class="form-label">Message</label>
+    <input class="form-control" type="text" data-message required />
+  </div>
+
+  <button class="btn btn-primary" type="button" data-submit>
+    Send
+  </button>
+
+  <div class="app-mobius6-recaptcha"></div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(siteKey))
+{
+  <script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
+
+  <script>
+    window.recaptchaFormInit = function (data) {
+      const root = document.getElementById(data.wrapperId);
+      const input = root?.querySelector("[data-message]");
+      const button = root?.querySelector("[data-submit]");
+      
+      button?.addEventListener("click", async () => {
+        const message = (input.value || "").trim();
+        if (!message) return;
+        
+        button.disabled = true;
+        try {
+          const token = await grecaptcha.execute(data.siteKey, { action: "submit" });
+          
+          const verify = await fetch(data.verifyUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+          }).then(r => r.json());
+          
+          if (verify?.isValid) {
+            await fetch(data.submitUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message })
+            });
+            input.value = "";
+          }
+        } finally {
+          button.disabled = false;
+        }
+      });
+    };
+  </script>
+
+  @Kit.Page.TurnOn("window.recaptchaFormInit()", data: new {
+    wrapperId = wrapperId,
+    siteKey = siteKey,
+    verifyUrl = verifyUrl,
+    submitUrl = submitUrl
+  })
+}
+else
+{
+  <div class="alert alert-warning">
+    Missing <code>GoogleRecaptcha.SiteKey</code> in App Settings
+  </div>
+}

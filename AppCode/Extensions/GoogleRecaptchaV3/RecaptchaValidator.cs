@@ -1,25 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AppCode.Extensions.GoogleRecaptchaV3.RecaptchaValidator;
 
 namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
 {
-  public class RecaptchaValidator
+  public class RecaptchaValidator: Custom.Hybrid.CodeTyped
   {
     private static readonly Uri SiteVerifyUri =
       new Uri("https://www.google.com/recaptcha/api/siteverify");
 
-    private static readonly JsonSerializerOptions JsonOptions =
-      new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="privateKey">Optional Recaptcha Private Key - will auto-load from settings if not provided</param>
+    /// <param name="remoteIp"></param>
+    /// <param name="minimumScore"></param>
+    /// <param name="expectedHostname"></param>
+    /// <returns></returns>
     public async Task<RecaptchaResult> ValidateAsync(
       string token,
-      string privateKey,
+      string privateKey = null,
       string remoteIp = null,
-      double minimumScore = 0.5,
+      double minimumScore = -1,
       string expectedHostname = null
     )
     {
@@ -27,18 +32,36 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
         return new RecaptchaResult { IsValid = false, Error = "token_missing" };
 
       if (string.IsNullOrWhiteSpace(privateKey))
-        return new RecaptchaResult { IsValid = false, Error = "private_key_missing" };
+      {
+        privateKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.PrivateKey")).Value; // + "bb";
+        if (string.IsNullOrWhiteSpace(privateKey))
+          return new RecaptchaResult { IsValid = false, Error = "private_key_missing" };
+      }
+
+      if (minimumScore < 0 || minimumScore > 1)
+      {
+        minimumScore = AllSettings.Double("GoogleRecaptcha.ScoreThreshold");
+        if (minimumScore < 0 || minimumScore > 1)
+          return new RecaptchaResult { IsValid = false, Error = "invalid_minimum_score" };
+      }
 
       using (var httpClient = new HttpClient())
       {
-        var form = new List<KeyValuePair<string, string>>
+        // var form = new List<KeyValuePair<string, string>>
+        // {
+        //   new KeyValuePair<string, string>("secret", privateKey),
+        //   new KeyValuePair<string, string>("response", token)
+        // };
+
+        // same but as dictionary
+        var form = new Dictionary<string, string>
         {
-          new KeyValuePair<string, string>("secret", privateKey),
-          new KeyValuePair<string, string>("response", token)
+          { "secret", privateKey },
+          { "response", token }
         };
 
         if (!string.IsNullOrWhiteSpace(remoteIp))
-          form.Add(new KeyValuePair<string, string>("remoteip", remoteIp));
+          form.Add("remoteip", remoteIp);
 
         var response = await httpClient
           .PostAsync(SiteVerifyUri, new FormUrlEncodedContent(form))
@@ -49,7 +72,7 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
         RecaptchaResponse captchaResponse;
         try
         {
-          captchaResponse = JsonSerializer.Deserialize<RecaptchaResponse>(body, JsonOptions);
+          captchaResponse = Kit.Json.To<RecaptchaResponse>(body);
         }
         catch (Exception ex)
         {
