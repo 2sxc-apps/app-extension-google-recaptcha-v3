@@ -25,7 +25,7 @@
       - Below you will use it using $(PathBin)
     -->
     <!-- PathBin for Dnn -->
-    <PathBin>..\..\..\..\bin</PathBin>
+    <PathBin>..\..\..\..\..\..\bin</PathBin>
     <!-- PathBin Oqtane production, just up 3 folders, no bin-subfolder -->
     <!-- <PathBin>..\..\..</PathBin> -->
     <!-- PathBin Oqtane dev/debug, up 3 folders and current build folder -->
@@ -46,6 +46,10 @@
     <!-- System.Web is not in the DNN folder but in the .net Framework installed on the server -->
     <Reference Include="System.Web" />
     <Reference Include="System.Net.Http" />
+    
+    <!-- Common Microsoft DLLs -->
+    <Reference Include="$(PathBin)\System.Text.Json.dll" />
+  
   </ItemGroup>
 
   <!-- Additional DLLs which Mobius needs-->
