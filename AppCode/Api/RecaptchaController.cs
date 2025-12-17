@@ -15,11 +15,11 @@ public class RecaptchaController : Custom.Hybrid.ApiTyped
 #if NETCOREAPP
   [HttpPost]
   [SecureEndpoint]
-  public async Task<IActionResult> Verify([FromBody] RecaptchaVerifyRequest request)
+  public async Task<IActionResult> Verify([FromBody] RecaptchaRequest request)
 #else
   [HttpPost]
   [SecureEndpoint]
-  public async Task Verify([FromBody] RecaptchaVerifyRequest request)
+  public async Task<IHttpActionResult> Verify([FromBody] RecaptchaRequest request)
 #endif
   {
     if (request == null || string.IsNullOrWhiteSpace(request.Token))
@@ -27,38 +27,51 @@ public class RecaptchaController : Custom.Hybrid.ApiTyped
 #if NETCOREAPP
       return BadRequest(new { ok = false, error = "token_missing" });
 #else
-      throw new HttpResponseException(System.Net.HttpStatusCode.BadRequest);
+      return Json(new { ok = false, error = "token_missing" });
 #endif
     }
-    var remoteIp =
-#if NETCOREAPP
-      Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-#else
-      System.Web.HttpContext.Current?.Request?.UserHostAddress;
-#endif
 
-    var privateKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.PrivateKey")).Value;
-    var minimumScore = AllSettings.Double("GoogleRecaptcha.ScoreThreshold");
+    var privateKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.PrivateKey")).Value
+                     ?? AllSettings.String("GoogleRecaptcha.PrivateKey");
 
-    string expectedHostname = null;
+    var minimumScoreFromSettings = AllSettings.Double("GoogleRecaptcha.ScoreThreshold");
+
+    var minimumScore = request.MinimumScore > 0
+      ? request.MinimumScore
+      : minimumScoreFromSettings;
+
+
+    var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
 
     var validator = new RecaptchaValidator();
-
     var result = await validator.ValidateAsync(
       token: request.Token,
       privateKey: privateKey,
       remoteIp: remoteIp,
       minimumScore: minimumScore,
-      expectedHostname: expectedHostname
+      expectedHostname: null
     );
 
+    var response = new
+    {
+      ok = result.IsValid,
+      isValid = result.IsValid,
+      score = result.Score,
+      hostname = result.Hostname,
+      error = result.Error,
+      errorCodes = result.ErrorCodes
+    };
+
 #if NETCOREAPP
-    return Ok(new { ok = result.IsValid, score = result.Score, error = result.Error, hostname = result.Hostname });
+    return Ok(response);
+#else
+    return Json(response);
 #endif
   }
 }
 
-public class RecaptchaVerifyRequest
+public class RecaptchaRequest
 {
   public string Token { get; set; }
+  public double MinimumScore { get; set; } = 0;
 }

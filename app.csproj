@@ -25,7 +25,7 @@
       - Below you will use it using $(PathBin)
     -->
     <!-- PathBin for Dnn -->
-    <PathBin>..\..\..\..\..\..\bin</PathBin>
+    <PathBin>..\..\..\..\bin</PathBin>
     <!-- PathBin Oqtane production, just up 3 folders, no bin-subfolder -->
     <!-- <PathBin>..\..\..</PathBin> -->
     <!-- PathBin Oqtane dev/debug, up 3 folders and current build folder -->
