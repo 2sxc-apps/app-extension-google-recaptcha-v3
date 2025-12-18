@@ -89,7 +89,11 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
         };
 
         if (!captchaResponse.Success)
+        {
+           Kit.Page.SetHttpStatus(400, "captcha_failed");
+
           return result;
+        }
 
         if (!string.IsNullOrWhiteSpace(expectedHostname) &&
             !string.Equals(captchaResponse.Hostname, expectedHostname, StringComparison.OrdinalIgnoreCase))

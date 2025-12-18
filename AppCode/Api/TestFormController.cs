@@ -7,6 +7,7 @@ using IActionResult = System.Web.Http.IHttpActionResult;
 
 using AppCode.Extensions.GoogleRecaptchaV3.Recaptcha;
 using System.Threading.Tasks;
+using ToSic.Sys.Utils;
 
 [AllowAnonymous]
 public class TestFormController : Custom.Hybrid.ApiTyped
@@ -24,12 +25,11 @@ public class TestFormController : Custom.Hybrid.ApiTyped
 
     var validator = GetService<RecaptchaValidator>();
     var result = await validator.ValidateAsync(
-      token: request.Token,
+      token: request.Token + "BB",
       remoteIp: remoteIp
     );
-
     if (!result.IsValid)
-      return Json(new { ok = false, error = result.Error, score = result.Score });
+      return BadRequest(result.Error);
 
     return Json(new { ok = true });
   }
