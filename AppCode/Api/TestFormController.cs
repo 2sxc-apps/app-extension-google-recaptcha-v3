@@ -5,10 +5,8 @@ using System.Web.Http;
 using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
 
-using AppCode.Extensions.GoogleRecaptchaV3.Recaptcha;
+using AppCode.Extensions.GoogleRecaptchaV3;
 using System.Threading.Tasks;
-using ToSic.Sys.Utils;
-
 [AllowAnonymous]
 public class TestFormController : Custom.Hybrid.ApiTyped
 {
@@ -18,14 +16,11 @@ public class TestFormController : Custom.Hybrid.ApiTyped
     if (request == null || string.IsNullOrWhiteSpace(request.Message))
       return Json(new { ok = false, error = "message_missing" });
 
-    if (string.IsNullOrWhiteSpace(request.Token))
-      return Json(new { ok = false, error = "token_missing" });
-
     var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
 
     var validator = GetService<RecaptchaValidator>();
     var result = await validator.ValidateAsync(
-      token: request.Token + "BB",
+      token: request.Token,
       remoteIp: remoteIp
     );
     if (!result.IsValid)

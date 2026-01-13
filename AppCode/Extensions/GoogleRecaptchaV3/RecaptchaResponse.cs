@@ -1,6 +1,4 @@
-using System.Text.Json.Serialization;
-
-namespace AppCode.Extensions.GoogleRecaptchaV3.RecaptchaValidator
+namespace AppCode.Extensions.GoogleRecaptchaV3
 {
   // Response vom Google reCAPTCHA siteverify Endpoint
   public class RecaptchaResponse

@@ -8,7 +8,7 @@ using IActionResult = System.Web.Http.IHttpActionResult;
 
 using System.Threading.Tasks;
 using ToSic.Sxc.WebApi;
-using AppCode.Extensions.GoogleRecaptchaV3.Recaptcha;
+using AppCode.Extensions.GoogleRecaptchaV3;
 
 [AllowAnonymous]
 public class TestRecaptchaController : Custom.Hybrid.ApiTyped
@@ -33,7 +33,6 @@ public class TestRecaptchaController : Custom.Hybrid.ApiTyped
 
     var response = new
     {
-      // ok = result.IsValid,
       isValid = result.IsValid,
       score = result.Score,
       demoHostname = result.Hostname,

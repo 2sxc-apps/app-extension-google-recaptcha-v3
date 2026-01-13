@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppCode.Extensions.GoogleRecaptchaV3.RecaptchaValidator;
 
-namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
+namespace AppCode.Extensions.GoogleRecaptchaV3
 {
   public class RecaptchaValidator: Custom.Hybrid.CodeTyped
   {
@@ -60,7 +59,8 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
           .PostAsync(SiteVerifyUri, new FormUrlEncodedContent(form))
           .ConfigureAwait(false);
 
-        var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var body = await response.Content.ReadAsStringAsync()
+          .ConfigureAwait(false);
 
         RecaptchaResponse captchaResponse;
         try
@@ -91,7 +91,6 @@ namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
         if (!captchaResponse.Success)
         {
            Kit.Page.SetHttpStatus(400, "captcha_failed");
-
           return result;
         }
 

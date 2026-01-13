@@ -1,4 +1,4 @@
-namespace AppCode.Extensions.GoogleRecaptchaV3.Recaptcha
+namespace AppCode.Extensions.GoogleRecaptchaV3
 {
   public class RecaptchaResult
   {

@@ -1,12 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SexyContent FileVersion="07.00.00" MinimumRequiredVersion="07.04.02" ModuleVersion="17.02.00" ExportDate="2024-02-23T16:23:21.3172833+01:00">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SexyContent FileVersion="07.00.00" MinimumRequiredVersion="07.04.02" ModuleVersion="20.00.10" ExportDate="2026-01-13T10:28:24.5659903+01:00">
   <Header>
-    <App Guid="" />
+    <App Guid="b7365a9e-582f-4573-9f17-7a106c52cc5a" />
     <Language Default="en-us" />
-    <Dimensions>
-      <Dimension DimensionID="216" Name="English (United States)" SystemKey="" ExternalKey="en-US" Active="true" />
-      <Dimension DimensionID="217" Name="German (Germany)" SystemKey="" ExternalKey="de-DE" Active="true" />
-    </Dimensions>
+    <Dimensions />
   </Header>
   <AttributeSets>
     <AttributeSet StaticName="App-Resources" Name="App-Resources" Scope="System.App" AlwaysShareConfiguration="false">
@@ -17,108 +14,82 @@
     </AttributeSet>
   </AttributeSets>
   <Entities>
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="2SexyContent-App" AttributeSetName="2SexyContent-App" EntityGUID="99a84f36-e791-486d-a821-c424df4c77be" Json="True" KeyNumber="326">
-      <Value Key="AllowRazorTemplates" Value="True" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="AllowTokenTemplates" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="DebugLog" Value="Caller: Create; Line: 56; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Apps\Eav.Apps.Internal\Work\AppCreate\AppCreator.cs&#xA;Caller: InitializeApp; Line: 62; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Apps\Eav.Apps.Internal\Work\AppCreate\AppInitializer.cs&#xA;Message: App: 325; Number: 0&#xA;Caller: CheckIfAllPartsExist; Line: 54; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Apps\Eav.Apps.Internal\Work\AppCreate\AppInitializedChecker.cs&#xA;Message: App: 325; Number: 0&#xA;Message: Config: False, Resources: False, Settings: False; AllOk: False; Number: 0&#xA;Message: App Entity Count: 0; Number: 0&#xA;Message: App ContentType Count: 119; Number: 0&#xA;Message: App Metadata Count: 0; Number: 0&#xA;Message: Has Type App Config: ToSic.Eav.Data.ContentTypeWrapper; Number: 0&#xA;Message: Has Type App Resources: ; Number: 0&#xA;Message: Has Type App Settings: ; Number: 0&#xA;Message: Some parts missing: appConfig: ; appResources: : appSettings; ; Number: 0" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Description" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="DisplayName" Value="app-extension-google-recaptcha-v3" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Folder" Value="app-extension-google-recaptcha-v3" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Hidden" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="OriginalId" Value="" Type="String" OriginalId="1685c29d-df30-4855-9898-bde5df7eb6ce">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="RequiredDnnVersion" Value="09.06.01" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="RequiredOqtaneVersion" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="RequiredVersion" Value="17.00.00" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="SupportsAjaxReload" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Version" Value="00.17.00" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="2SexyContent-App" AttributeSetName="2SexyContent-App" EntityGUID="550dcc50-6b25-4d9b-bd36-29f0073d93af" Json="True" KeyNumber="10">
+      <Value Key="DebugLog" Value="Caller: Create; Line: 49; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppCreator.cs&#xA;Caller: InitializeApp; Line: 46; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppInitializer.cs&#xA;Message: App: 10; Number: 0&#xA;Caller: CheckIfAllPartsExist; Line: 55; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppInitializedChecker.cs&#xA;Message: App: 10; Number: 0&#xA;Message: Config: False, Resources: False, Settings: False; AllOk: False; Number: 0&#xA;Message: App Entity Count: 0; Number: 0&#xA;Message: App ContentType Count: 140; Number: 0&#xA;Message: App Metadata Count: 0; Number: 0&#xA;Message: Has Type App Config: 2SexyContent-App/2SexyContent-App - ToSic.Eav.Data.Sys.ContentTypes.ContentType; Number: 0&#xA;Message: Has Type App Resources: ; Number: 0&#xA;Message: Has Type App Settings: ; Number: 0&#xA;Message: Some parts missing: appConfig: ; appResources: : appSettings; ; Number: 0" Type="String" />
+      <Value Key="DisplayName" Value="app-extension-google-recaptcha-v3" Type="String" />
+      <Value Key="Folder" Value="app-extension-google-recaptcha-v3" Type="String" />
+      <Value Key="OriginalId" Value="" Type="String" />
+      <Value Key="Version" Value="00.00.20" Type="String" />
     </Entity>
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Settings" AttributeSetName="App-Settings" EntityGUID="8d079008-cfbb-4dba-8eab-5ff9888dd4ec" KeyNumber="326" />
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Resources" AttributeSetName="App-Resources" EntityGUID="b40197cb-f1ae-47d8-92ac-bc52ed1b53ab" KeyNumber="326" />
-    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="2SexyContent-Template" AttributeSetName="2SexyContent-Template" EntityGUID="032e360f-d7b1-4ce1-beb8-f24bf6257a0f" Json="True">
-      <Value Key="ContentTypeStaticName" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Icon" Value="" Type="Hyperlink">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Identifier" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="IsHidden" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="ListContentTypeStaticName" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="ListPresentationTypeStaticName" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Location" Value="Site" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Name" Value="Default View" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Path" Value="Default.cshtml" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="PresentationTypeStaticName" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="PublishData" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="SearchIndexingDisabled" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="SearchIndexingStreams" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="StreamsToPublish" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="Type" Value="C# Razor" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="UseForList" Value="False" Type="Boolean">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="ViewController" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
-      <Value Key="ViewNameInUrl" Value="" Type="String">
-        <Dimension DimensionID="216" ReadOnly="false" />
-      </Value>
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Settings" AttributeSetName="App-Settings" EntityGUID="69424592-14ef-4525-bd96-003a96dba8ae" KeyNumber="10" />
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Resources" AttributeSetName="App-Resources" EntityGUID="ad49f238-d987-4fd9-977a-f86ac9fec783" KeyNumber="10" />
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="2SexyContent-Template" AttributeSetName="2SexyContent-Template" EntityGUID="3ba6108d-547c-4cec-8543-c93c94cb058e" Json="True">
+      <Value Key="ContentTypeStaticName" Value="" Type="String" />
+      <Value Key="Icon" Value="" Type="Hyperlink" />
+      <Value Key="Identifier" Value="" Type="String" />
+      <Value Key="IsHidden" Value="False" Type="Boolean" />
+      <Value Key="ListContentTypeStaticName" Value="" Type="String" />
+      <Value Key="ListPresentationTypeStaticName" Value="" Type="String" />
+      <Value Key="Location" Value="Site" Type="String" />
+      <Value Key="Name" Value="Test View" Type="String" />
+      <Value Key="Path" Value="Test Receptcha.cshtml" Type="String" />
+      <Value Key="PresentationTypeStaticName" Value="" Type="String" />
+      <Value Key="SearchIndexingDisabled" Value="False" Type="Boolean" />
+      <Value Key="SearchIndexingStreams" Value="" Type="String" />
+      <Value Key="StreamsToPublish" Value="" Type="String" />
+      <Value Key="Type" Value="C# Razor" Type="String" />
+      <Value Key="UseForList" Value="False" Type="Boolean" />
+      <Value Key="ViewController" Value="" Type="String" />
+      <Value Key="ViewNameInUrl" Value="" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="838b51db-b06c-449b-adcc-cb508ca4b488" AttributeSetName="⚙️GoogleRecaptcha" EntityGUID="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Json="True">
+      <Value Key="PrivateKey" Value="6Lcw0tAcAAAAAMjGxfGUEdutVX8uskk88gv_RaXL" Type="String" />
+      <Value Key="ScoreThreshold" Value="0.5" Type="Number" />
+      <Value Key="SettingsIdentifier" Value="GoogleRecaptcha" Type="String" />
+      <Value Key="SiteKey" Value="6Lcw0tAcAAAAAGYpE1H8kcnAs6FAEVR198SVRghI" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="ed770594-4c16-4f8e-b06f-b0db3321ebc5" Json="True">
+      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
+      <Value Key="SettingsEntityScope" Value="" Type="String" />
+      <Value Key="Title" Value="System Settings" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="f7d2e8b1-8be5-4aa5-957a-ad92fa3e794a" Json="True">
+      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
+      <Value Key="SettingsEntityScope" Value="" Type="String" />
+      <Value Key="Title" Value="System Settings" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="db2a3e35-4229-45a3-a9fe-56fc5b7afbbc" Json="True">
+      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
+      <Value Key="SettingsEntityScope" Value="" Type="String" />
+      <Value Key="Title" Value="System Settings" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="937d84a4-a015-419e-b407-94c2c4e1dcce" Json="True">
+      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
+      <Value Key="SettingsEntityScope" Value="" Type="String" />
+      <Value Key="Title" Value="System Settings" Type="String" />
+    </Entity>
+    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="2SexyContent-Template" AttributeSetName="2SexyContent-Template" EntityGUID="b9b24ff3-a7cf-484e-8d6c-f33b1cd08b38" Json="True">
+      <Value Key="ContentTypeStaticName" Value="" Type="String" />
+      <Value Key="Icon" Value="" Type="Hyperlink" />
+      <Value Key="Identifier" Value="" Type="String" />
+      <Value Key="IsHidden" Value="False" Type="Boolean" />
+      <Value Key="ListContentTypeStaticName" Value="" Type="String" />
+      <Value Key="ListPresentationTypeStaticName" Value="" Type="String" />
+      <Value Key="Location" Value="Site" Type="String" />
+      <Value Key="Name" Value="Test Form" Type="String" />
+      <Value Key="Path" Value="Test Receptcha Form.cshtml" Type="String" />
+      <Value Key="PresentationTypeStaticName" Value="" Type="String" />
+      <Value Key="SearchIndexingDisabled" Value="False" Type="Boolean" />
+      <Value Key="SearchIndexingStreams" Value="" Type="String" />
+      <Value Key="StreamsToPublish" Value="" Type="String" />
+      <Value Key="Type" Value="C# Razor" Type="String" />
+      <Value Key="UseForList" Value="False" Type="Boolean" />
+      <Value Key="ViewController" Value="" Type="String" />
+      <Value Key="ViewNameInUrl" Value="" Type="String" />
     </Entity>
   </Entities>
   <PortalFiles />
   <PortalFolders>
-    <Folder Id="14367" RelativePath="adam/app-extension-google-recaptcha-v3/" />
+    <Folder Id="174" RelativePath="adam/app-extension-google-recaptcha-v3/" />
   </PortalFolders>
 </SexyContent>
