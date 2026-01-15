@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SexyContent FileVersion="07.00.00" MinimumRequiredVersion="07.04.02" ModuleVersion="20.00.10" ExportDate="2026-01-13T10:28:24.5659903+01:00">
+<SexyContent FileVersion="07.00.00" MinimumRequiredVersion="07.04.02" ModuleVersion="20.00.10" ExportDate="2026-01-15T08:19:20.7041051+01:00">
   <Header>
     <App Guid="b7365a9e-582f-4573-9f17-7a106c52cc5a" />
     <Language Default="en-us" />
@@ -12,17 +12,18 @@
     <AttributeSet StaticName="App-Settings" Name="App-Settings" Scope="System.App" AlwaysShareConfiguration="false">
       <Attributes />
     </AttributeSet>
+    <AttributeSet StaticName="48606664-c0eb-47ed-9e41-9ea6348bad92" Name="App-Settings" Scope="System.Configuration" AlwaysShareConfiguration="false">
+      <Attributes />
+    </AttributeSet>
   </AttributeSets>
   <Entities>
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="2SexyContent-App" AttributeSetName="2SexyContent-App" EntityGUID="550dcc50-6b25-4d9b-bd36-29f0073d93af" Json="True" KeyNumber="10">
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="2SexyContent-App" AttributeSetName="2SexyContent-App" EntityGUID="550dcc50-6b25-4d9b-bd36-29f0073d93af" Json="True" KeyNumber="69">
       <Value Key="DebugLog" Value="Caller: Create; Line: 49; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppCreator.cs&#xA;Caller: InitializeApp; Line: 46; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppInitializer.cs&#xA;Message: App: 10; Number: 0&#xA;Caller: CheckIfAllPartsExist; Line: 55; File: C:\Projects\2sxc\eav-server\ToSic.Eav.Work\Apps.Sys\Work\AppCreate\AppInitializedChecker.cs&#xA;Message: App: 10; Number: 0&#xA;Message: Config: False, Resources: False, Settings: False; AllOk: False; Number: 0&#xA;Message: App Entity Count: 0; Number: 0&#xA;Message: App ContentType Count: 140; Number: 0&#xA;Message: App Metadata Count: 0; Number: 0&#xA;Message: Has Type App Config: 2SexyContent-App/2SexyContent-App - ToSic.Eav.Data.Sys.ContentTypes.ContentType; Number: 0&#xA;Message: Has Type App Resources: ; Number: 0&#xA;Message: Has Type App Settings: ; Number: 0&#xA;Message: Some parts missing: appConfig: ; appResources: : appSettings; ; Number: 0" Type="String" />
       <Value Key="DisplayName" Value="app-extension-google-recaptcha-v3" Type="String" />
       <Value Key="Folder" Value="app-extension-google-recaptcha-v3" Type="String" />
       <Value Key="OriginalId" Value="" Type="String" />
       <Value Key="Version" Value="00.00.20" Type="String" />
     </Entity>
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Settings" AttributeSetName="App-Settings" EntityGUID="69424592-14ef-4525-bd96-003a96dba8ae" KeyNumber="10" />
-    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Resources" AttributeSetName="App-Resources" EntityGUID="ad49f238-d987-4fd9-977a-f86ac9fec783" KeyNumber="10" />
     <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="2SexyContent-Template" AttributeSetName="2SexyContent-Template" EntityGUID="3ba6108d-547c-4cec-8543-c93c94cb058e" Json="True">
       <Value Key="ContentTypeStaticName" Value="" Type="String" />
       <Value Key="Icon" Value="" Type="Hyperlink" />
@@ -53,21 +54,6 @@
       <Value Key="SettingsEntityScope" Value="" Type="String" />
       <Value Key="Title" Value="System Settings" Type="String" />
     </Entity>
-    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="f7d2e8b1-8be5-4aa5-957a-ad92fa3e794a" Json="True">
-      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
-      <Value Key="SettingsEntityScope" Value="" Type="String" />
-      <Value Key="Title" Value="System Settings" Type="String" />
-    </Entity>
-    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="db2a3e35-4229-45a3-a9fe-56fc5b7afbbc" Json="True">
-      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
-      <Value Key="SettingsEntityScope" Value="" Type="String" />
-      <Value Key="Title" Value="System Settings" Type="String" />
-    </Entity>
-    <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="813a3cb7-1a89-4477-bdfe-8863ab3ae59a" AttributeSetName="SettingsSystem" EntityGUID="937d84a4-a015-419e-b407-94c2c4e1dcce" Json="True">
-      <Value Key="GoogleRecaptcha" Value="6366f54b-5080-4f02-90c7-f7ad133e6b8e" Type="Entity" />
-      <Value Key="SettingsEntityScope" Value="" Type="String" />
-      <Value Key="Title" Value="System Settings" Type="String" />
-    </Entity>
     <Entity TargetType="1" AssignmentObjectType="Default" AttributeSetStaticName="2SexyContent-Template" AttributeSetName="2SexyContent-Template" EntityGUID="b9b24ff3-a7cf-484e-8d6c-f33b1cd08b38" Json="True">
       <Value Key="ContentTypeStaticName" Value="" Type="String" />
       <Value Key="Icon" Value="" Type="Hyperlink" />
@@ -87,9 +73,11 @@
       <Value Key="ViewController" Value="" Type="String" />
       <Value Key="ViewNameInUrl" Value="" Type="String" />
     </Entity>
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Settings" AttributeSetName="App-Settings" EntityGUID="3350bb49-3f08-4c8b-adb1-5151c32b8006" KeyNumber="69" />
+    <Entity TargetType="3" AssignmentObjectType="App" AttributeSetStaticName="App-Resources" AttributeSetName="App-Resources" EntityGUID="47ed8e96-0faa-4973-80a2-14b2e0a31ebb" KeyNumber="69" />
   </Entities>
   <PortalFiles />
   <PortalFolders>
-    <Folder Id="174" RelativePath="adam/app-extension-google-recaptcha-v3/" />
+    <Folder Id="941" RelativePath="adam/app-extension-google-recaptcha-v3/" />
   </PortalFolders>
 </SexyContent>

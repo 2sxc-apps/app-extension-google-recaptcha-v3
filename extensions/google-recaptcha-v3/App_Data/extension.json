@@ -19,7 +19,7 @@
   "dnnVersionMin": "",
   "oqtSupported": false,
   "oqtVersionMin": "",
-  "inputFieldInside": false,
+  "inputFieldInside": true,
   "appCodeInside": true,
   "webApiInside": true,
   "razorInside": false,
