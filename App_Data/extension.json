@@ -12,7 +12,7 @@
   "version": "00.00.01",
   "releases": null,
   "isInstalled": false,
-  "editionsSupported": false,
+  "editionsSupported": true,
   "sxcSupported": false,
   "sxcVersionMin": "20.09.00",
   "dnnSupported": false,
