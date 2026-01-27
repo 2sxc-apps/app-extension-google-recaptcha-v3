@@ -20,11 +20,8 @@ public class TestRecaptchaController : Custom.Hybrid.ApiTyped
     if (request == null || string.IsNullOrWhiteSpace(request.Token))
     {
       var errResponse = new { ok = false, error = "token_missing" }; 
-#if NETCOREAPP
-      return BadRequest(errResponse);
-#else
+      
       return Json(errResponse);
-#endif
     }
     var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
 
@@ -33,18 +30,13 @@ public class TestRecaptchaController : Custom.Hybrid.ApiTyped
 
     var response = new
     {
-      isValid = result.IsValid,
+      Success = result.Success,
       score = result.Score,
       demoHostname = result.Hostname,
       error = result.Error,
       errorCodes = result.ErrorCodes
     };
-
-#if NETCOREAPP
-    return Ok(response);
-#else
     return Json(response);
-#endif
   }
 }
 

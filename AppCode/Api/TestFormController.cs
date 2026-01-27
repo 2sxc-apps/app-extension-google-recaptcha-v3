@@ -30,7 +30,7 @@ public class TestFormController : Custom.Hybrid.ApiTyped
       remoteIp: remoteIp
     );
 
-    if (!result.IsValid)
+    if (!result.Success)
       return BadRequest(result.Error);
 
     // Demo success response

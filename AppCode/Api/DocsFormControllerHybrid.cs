@@ -18,10 +18,6 @@ public class DemoFormControllerHybrid : Custom.Hybrid.ApiTyped
     {
       return BadRequest("message_missing");
     }
-#if NETCOREAPP
-    return Ok(new { ok = true });
-#else
     return Json(new { ok = true });
-#endif
   }
 }

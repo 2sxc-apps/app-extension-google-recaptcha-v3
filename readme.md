@@ -4,6 +4,8 @@ This is a simple **app extension** for 2sxc which integrates Google Recaptcha v3
 
 ## History
 
-### 2026-01-26
+### 2026-01-27
 
-1. 2rb: ...
+1. 2rb: Moved demo views to right location
+1. 2rb: Improved Code and removed unnecessary code
+1. 2rb: Added comments

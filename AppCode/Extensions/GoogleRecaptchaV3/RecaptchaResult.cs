@@ -8,19 +8,28 @@ namespace AppCode.Extensions.GoogleRecaptchaV3
     /// <param name="errorCode"></param>
     /// <returns></returns>
     public static RecaptchaResult Err(string errorCode) 
-      => new RecaptchaResult { IsValid = false, Error = errorCode };
+      => new RecaptchaResult { Success = false, Error = errorCode };
 
     public RecaptchaResult ToError(string errorCode)
     {
-      IsValid = false;
+      Success = false;
       Error = errorCode;
       return this;
     }
 
-    public bool IsValid { get; set; }
+    public bool Success { get; set; }
     public double? Score { get; set; }
     public string Hostname { get; set; }
     public string[] ErrorCodes { get; set; }
     public string Error { get; set; }
   }
+
+  public static class RecaptchaErrors
+{
+  public const string MissingToken = "missing-token";
+  public const string InvalidResponse = "invalid-response";
+  public const string ScoreTooLow = "score-too-low";
+  public const string ActionMismatch = "action-mismatch";
+}
+
 }

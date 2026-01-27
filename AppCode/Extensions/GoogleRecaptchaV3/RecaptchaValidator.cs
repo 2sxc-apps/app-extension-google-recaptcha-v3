@@ -11,109 +11,77 @@ namespace AppCode.Extensions.GoogleRecaptchaV3
   /// </summary>
   public class RecaptchaValidator : Custom.Hybrid.CodeTyped
   {
-    // Google verify endpoint (Uri is created only when used)
     private const string SiteVerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
 
-    /// <summary>
-    /// Validate a reCAPTCHA v3 token.
-    /// </summary>
-    /// <param name="token">Client-side reCAPTCHA token</param>
-    /// <param name="privateKey">Optional private key (loaded from settings if null)</param>
-    /// <param name="remoteIp">Optional user IP</param>
-    /// <param name="minimumScore">Minimum accepted score (0–1)</param>
-    /// <param name="expectedHostname">Optional hostname check</param>
-    public async Task<RecaptchaResult> ValidateAsync(
-      string token,
-      string privateKey = null,
-      string remoteIp = null,
-      double minimumScore = -1,
-      string expectedHostname = null
-    )
+    public async Task<RecaptchaResult> ValidateAsync(string token, string privateKey = null,
+    string remoteIp = null,
+    double minimumScore = -1,
+    string expectedHostname = null)
     {
-      #region Input validation
-
       if (string.IsNullOrWhiteSpace(token))
-        return RecaptchaResult.Err("token_missing");
+        return RecaptchaResult.Err(RecaptchaErrors.MissingToken);
 
-      if (string.IsNullOrWhiteSpace(privateKey))
+      var secret = !string.IsNullOrWhiteSpace(privateKey)? privateKey : AllSettings.String("GoogleRecaptcha.PrivateKey", required: false);
+
+      if (string.IsNullOrWhiteSpace(secret))
       {
-        privateKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.PrivateKey")).Value;
-
-        if (string.IsNullOrWhiteSpace(privateKey))
-          return RecaptchaResult.Err("private_key_missing");
-      }
-
+        return RecaptchaResult.Err("missing-secret");
+    }
+      // Minimum score fallback 
       if (minimumScore < 0 || minimumScore > 1)
       {
-        minimumScore = AllSettings.Double("GoogleRecaptcha.ScoreThreshold");
-        if (minimumScore < 0 || minimumScore > 1)
-          return RecaptchaResult.Err("invalid_minimum_score");
+        minimumScore = AllSettings.Double("GoogleRecaptcha.ScoreThreshold", fallback: 0.5);
       }
-
-      #endregion
-
-      // Send verification request to Google
       using var httpClient = new HttpClient();
 
       var form = new Dictionary<string, string>
       {
-        { "secret", privateKey },
+        { "secret", secret },
         { "response", token }
       };
 
       if (!string.IsNullOrWhiteSpace(remoteIp))
+      {
         form.Add("remoteip", remoteIp);
+      }
+      var httpResponse = await httpClient.PostAsync(
+        new Uri(SiteVerifyUrl),
+        new FormUrlEncodedContent(form)
+      ).ConfigureAwait(false);
 
-      var response = await httpClient
-        .PostAsync(new Uri(SiteVerifyUrl), new FormUrlEncodedContent(form))
-        .ConfigureAwait(false);
+      var body = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-      var body = await response.Content.ReadAsStringAsync()
-        .ConfigureAwait(false);
-
-      // Parse Google response
-      RecaptchaResponse captchaResponse;
+      if (string.IsNullOrWhiteSpace(body))
+      {
+        return RecaptchaResult.Err("empty-response");
+      
+      }
+      RecaptchaResult google;
       try
       {
-        captchaResponse = Kit.Json.To<RecaptchaResponse>(body);
+        google = Kit.Json.To<RecaptchaResult>(body);
       }
-      catch (Exception ex)
+      catch
       {
-        return RecaptchaResult.Err(ex.Message);
-      }
-
-      if (captchaResponse == null)
-        return RecaptchaResult.Err("empty_response");
-
-      // Google rejected token
-      if (!captchaResponse.Success)
-      {
-        Kit.Page.SetHttpStatus(400, "captcha_failed");
-        return RecaptchaResult.Err("captcha_failed");
+        return RecaptchaResult.Err(RecaptchaErrors.InvalidResponse);
       }
 
-      // Optional hostname validation
-      if (!string.IsNullOrWhiteSpace(expectedHostname) &&
-          !string.Equals(
-            captchaResponse.Hostname,
-            expectedHostname,
-            StringComparison.OrdinalIgnoreCase
-          ))
-        return RecaptchaResult.Err("hostname_mismatch");
-
-      // Optional score validation
-      if (captchaResponse.Score.HasValue &&
-          minimumScore > 0 &&
-          captchaResponse.Score.Value < minimumScore)
-        return RecaptchaResult.Err("score_too_low");
-
-      return new RecaptchaResult
+      // If Google rejected, return their error codes
+      if (!google.Success)
       {
-        IsValid = true,
-        Score = captchaResponse.Score,
-        Hostname = captchaResponse.Hostname,
-        ErrorCodes = captchaResponse.ErrorCodes
-      };
+        Kit.Page.SetHttpStatus(400, "captcha-failed");
+        return google.ToError(string.Join(",", google.ErrorCodes));
+      }
+
+      if (!string.IsNullOrWhiteSpace(expectedHostname) && !string.Equals(google.Hostname, expectedHostname, StringComparison.OrdinalIgnoreCase))
+      {
+        return google.ToError(RecaptchaErrors.ActionMismatch);
+      }
+      if (google.Score.HasValue && minimumScore > 0 && google.Score.Value < minimumScore)
+      {
+        return google.ToError(RecaptchaErrors.ScoreTooLow);
+      }
+      return google;
     }
   }
 }

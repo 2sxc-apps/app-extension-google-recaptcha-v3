@@ -42,7 +42,7 @@
       )
       .then(r => r.json())
       .then(result => {
-        if (result.isValid) {
+        if (result.Success) {
           statusEl.textContent =
             `✔ reCAPTCHA accepted (score: ${result.score ?? 'n/a'})`;
           statusEl.style.color = 'green';
