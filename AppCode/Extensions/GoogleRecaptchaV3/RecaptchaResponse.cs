@@ -1,7 +1,9 @@
 namespace AppCode.Extensions.GoogleRecaptchaV3
 {
-  // Response vom Google reCAPTCHA siteverify Endpoint
-  public class RecaptchaResponse
+  /// <summary>
+  /// Response vom Google reCAPTCHA /siteverify Endpoint
+  /// </summary>
+  public class RecaptchaResponse // TODO: @2rb - TRY TO MAKE INTERNAL
   {
     public bool Success { get; set; }
     public double? Score { get; set; }

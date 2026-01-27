@@ -1,9 +1,11 @@
 @inherits Custom.Hybrid.RazorTyped
 
 @{
+  // Read site key (secure or plain)
   var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
   var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
 
+  // Backend endpoint for token verification
   var verifyUrl = Link.To(
     api: "api/TestRecaptcha/Verify",
     parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
@@ -11,17 +13,24 @@
 }
 
 <div class="app-mobius6-recaptcha" data-sitekey="@siteKey"></div>
-<div class="recaptcha-status" style="margin-top:6px;font-size:13px;"></div>
+
+<div class="recaptcha-status"
+     style="margin-top:8px;font-size:13px;font-weight:500;"></div>
 
 <script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
 
 <script>
 (() => {
+  // Get elements
   const recap = document.querySelector('.app-mobius6-recaptcha');
   const statusEl = document.querySelector('.recaptcha-status');
-
   if (!recap || !statusEl) return;
 
+  // Initial hint
+  statusEl.textContent = 'Running reCAPTCHA…';
+  statusEl.style.color = '#666';
+
+  // Run reCAPTCHA and verify token
   grecaptcha.ready(() => {
     grecaptcha.execute(recap.dataset.sitekey, { action: 'submit' })
       .then(token =>
@@ -33,12 +42,19 @@
       )
       .then(r => r.json())
       .then(result => {
-        statusEl.textContent = result.isValid
-          ? `Captcha accepted (score: ${result.score ?? 'n/a'})`
-          : `Captcha blocked (score: ${result.score ?? 'n/a'})`;
+        if (result.isValid) {
+          statusEl.textContent =
+            `✔ reCAPTCHA accepted (score: ${result.score ?? 'n/a'})`;
+          statusEl.style.color = 'green';
+        } else {
+          statusEl.textContent =
+            `✖ reCAPTCHA blocked (score: ${result.score ?? 'n/a'})`;
+          statusEl.style.color = 'red';
+        }
       })
       .catch(() => {
-        statusEl.textContent = 'Captcha check failed';
+        statusEl.textContent = '✖ reCAPTCHA check failed';
+        statusEl.style.color = 'red';
       });
   });
 })();

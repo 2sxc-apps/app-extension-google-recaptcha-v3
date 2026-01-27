@@ -1,0 +1,91 @@
+@inherits Custom.Hybrid.RazorTyped
+
+@{
+  // Read site key (secure or plain)
+  var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
+  var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
+
+  // Backend endpoint for submitting message + token
+  var submitUrl = Link.To(
+    api: $"{MyView.Edition}/api/TestForm/SubmitAsync",
+    parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
+  );
+
+  // Unique id so multiple forms can exist on one page
+  var wrapperId = "recaptcha-form-" + UniqueKey;
+}
+
+<div id="@wrapperId" class="recaptcha-form">
+  <div class="mb-2">
+    <label class="form-label">Message</label>
+    <input class="form-control" type="text" data-message required />
+  </div>
+
+  <button class="btn btn-primary" type="button" data-submit>
+    Send
+  </button>
+
+  <div class="recaptcha-status mt-2" style="font-size:13px;"></div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
+
+<script>
+  /**
+   * Initializes one reCAPTCHA form instance
+   * - Gets token
+   * - Sends { message, token } to backend
+   * - Shows success/fail status
+   */
+  window.recaptchaFormInit = function (data) {
+
+    // Get elements inside this wrapper
+    const root = document.getElementById(data.wrapperId);
+    const input = root?.querySelector("[data-message]");
+    const button = root?.querySelector("[data-submit]");
+    const status = root?.querySelector(".recaptcha-status");
+
+    button?.addEventListener("click", async () => {
+      const message = (input.value || "").trim();
+      if (!message) return;
+
+      // Reset status + lock UI
+      button.disabled = true;
+      status.textContent = "";
+      status.style.color = "";
+
+      try {
+        // Request reCAPTCHA v3 token
+        const token = await grecaptcha.execute(data.siteKey, { action: "submit" });
+
+        // Send data to backend
+        const response = await fetch(data.submitUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message, token })
+        });
+
+        // Show quick result for the test
+        if (response.ok) {
+          status.textContent = "reCAPTCHA accepted ✔";
+          status.style.color = "green";
+          input.value = "";
+        } else {
+          status.textContent = "reCAPTCHA rejected ✖";
+          status.style.color = "red";
+        }
+      } catch {
+        status.textContent = "Submission failed";
+        status.style.color = "red";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  };
+</script>
+
+@Kit.Page.TurnOn("window.recaptchaFormInit()", data: new {
+  wrapperId = wrapperId,
+  siteKey = siteKey,
+  submitUrl = submitUrl
+})
