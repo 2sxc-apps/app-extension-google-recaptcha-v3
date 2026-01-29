@@ -1,45 +1,46 @@
 @inherits Custom.Hybrid.RazorTyped
 
 @{
-	// Read site key
-	var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
-	var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
+  // Read site key
+  var siteKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.SiteKey")).Value;
 
-	// Endpoint for DocsFormControllerHybrid (DemoFormControllerHybrid)
-	var submitUrl = Link.To(
-		api: $"{MyView.Edition}/api/DemoForm/SubmitAsync",
-		parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
-	);
+  // Endpoint for DocsFormControllerHybrid (DemoFormControllerHybrid)
+  var submitUrl = Link.To(api: $"{MyView.Edition}/api/DocsForm/SubmitAsync");
 }
 
-<!-- Minimal visible demo -->
-<button class="btn btn-primary" type="button" data-recaptcha-run>
-	Run reCAPTCHA
-</button>
-
+@* Load reCAPTCHA script *@
 <script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
 
+@* Minimal visible demo with button to submit *@
+<button id="send-demo" class="btn btn-primary" type="button">
+  Run reCAPTCHA
+</button>
+
+@* Script to handle button click, get token, and send to API *@
 <script>
-	// Short, working example tied to DocsFormControllerHybrid
-	(() => {
-		const button = document.querySelector("[data-recaptcha-run]");
-		if (!button) return;
-
-		button.addEventListener("click", async () => {
-			try {
-				const token = await grecaptcha.execute("@siteKey", { action: "submit" });
-				const response = await fetch("@submitUrl", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ message: "hello", token })
-				});
-
-				if (!response.ok) {
-					return;
-				}
-
-			} catch {
-			}
-		});
-	})();
+  (() => {
+    // On click, execute reCAPTCHA and send token to API
+    document.getElementById("send-demo")?.addEventListener("click", () => {
+      grecaptcha.execute("@siteKey", { action: "submit" })
+        .then(token =>
+        
+          fetch("@submitUrl", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: "hello", token })
+          })
+        )
+        .then(async r => {
+          if (!r.ok) {
+            throw new Error( await r.text() || "captcha-failed");
+          }
+        })
+        .then(() => {
+          alert("reCAPTCHA accepted");
+        })
+        .catch(err => {
+          alert("reCAPTCHA failed: " + (err?.message || err));
+        });
+    });
+  })();
 </script>

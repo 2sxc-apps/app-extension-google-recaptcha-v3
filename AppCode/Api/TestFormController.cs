@@ -17,17 +17,14 @@ public class TestFormController : Custom.Hybrid.ApiTyped
   public async Task<IActionResult> SubmitAsync([FromBody] DemoFormRequest request)
   {
     // Basic input validation
-    if (request == null || string.IsNullOrWhiteSpace(request.Message))
+    if (string.IsNullOrWhiteSpace(request?.Message))
       return BadRequest("message_missing");
-
-    // Forward client IP to Google (optional, improves validation)
-    var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
 
     // Validate reCAPTCHA token
     var validator = GetService<RecaptchaValidator>();
     var result = await validator.ValidateAsync(
       token: request.Token,
-      remoteIp: remoteIp
+      remoteIp: Request.GetClientIp()
     );
 
     if (!result.Success)

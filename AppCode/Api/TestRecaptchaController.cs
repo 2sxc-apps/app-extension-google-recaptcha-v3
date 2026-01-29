@@ -17,19 +17,14 @@ public class TestRecaptchaController : Custom.Hybrid.ApiTyped
   [SecureEndpoint]
   public async Task<IActionResult> Verify([FromBody] RecaptchaRequest request)
   {
-    if (request == null || string.IsNullOrWhiteSpace(request.Token))
+    if (string.IsNullOrWhiteSpace(request?.Token))
       return BadRequest("token_missing");
 
-    var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
-    var expectedHostname = System.Web.HttpContext.Current?.Request?.Url?.Host;
-    var minimumScore = request.MinimumScore > 0 ? request.MinimumScore : -1;
-
-    var result = await GetService<RecaptchaValidator>()
-      .ValidateAsync(
-        token: request.Token,
-        remoteIp: remoteIp,
-        minimumScore: minimumScore,
-        expectedHostname: expectedHostname);
+    var result = await GetService<RecaptchaValidator>().ValidateAsync(
+      token: request.Token,
+      remoteIp: Request.GetClientIp(),
+      minimumScore: request.MinimumScore > 0 ? request.MinimumScore : -1,
+      expectedHostname: Request.GetHost());
 
     if (!result.Success)
       return BadRequest(result.Error);
