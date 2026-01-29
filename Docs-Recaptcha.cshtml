@@ -1,0 +1,45 @@
+@inherits Custom.Hybrid.RazorTyped
+
+@{
+	// Read site key
+	var siteKeyRaw = AllSettings.String("GoogleRecaptcha.SiteKey");
+	var siteKey = Kit.SecureData.Parse(siteKeyRaw).Value ?? siteKeyRaw;
+
+	// Endpoint for DocsFormControllerHybrid (DemoFormControllerHybrid)
+	var submitUrl = Link.To(
+		api: $"{MyView.Edition}/api/DemoForm/SubmitAsync",
+		parameters: new { PageId = MyContext.Page.Id, ModuleId = MyContext.Module.Id }
+	);
+}
+
+<!-- Minimal visible demo -->
+<button class="btn btn-primary" type="button" data-recaptcha-run>
+	Run reCAPTCHA
+</button>
+
+<script src="https://www.google.com/recaptcha/api.js?render=@siteKey"></script>
+
+<script>
+	// Short, working example tied to DocsFormControllerHybrid
+	(() => {
+		const button = document.querySelector("[data-recaptcha-run]");
+		if (!button) return;
+
+		button.addEventListener("click", async () => {
+			try {
+				const token = await grecaptcha.execute("@siteKey", { action: "submit" });
+				const response = await fetch("@submitUrl", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ message: "hello", token })
+				});
+
+				if (!response.ok) {
+					return;
+				}
+
+			} catch {
+			}
+		});
+	})();
+</script>

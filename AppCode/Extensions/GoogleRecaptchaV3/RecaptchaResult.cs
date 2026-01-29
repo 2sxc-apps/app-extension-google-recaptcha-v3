@@ -25,11 +25,16 @@ namespace AppCode.Extensions.GoogleRecaptchaV3
   }
 
   public static class RecaptchaErrors
-{
-  public const string MissingToken = "missing-token";
-  public const string InvalidResponse = "invalid-response";
-  public const string ScoreTooLow = "score-too-low";
-  public const string ActionMismatch = "action-mismatch";
-}
+  {
+    // Standard/known error codes used by this validator
+    public const string MissingToken = "missing-token";
+    public const string MissingSecret = "missing-secret";
+    public const string EmptyResponse = "empty-response";
+    public const string InvalidResponse = "invalid-response";
+    public const string ScoreTooLow = "score-too-low";
+    public const string ActionMismatch = "action-mismatch";
+    public const string NetworkError = "network-error";
+    public const string CaptchaFailed = "captcha-failed";
+  }
 
 }

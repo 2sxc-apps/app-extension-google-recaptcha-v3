@@ -18,25 +18,23 @@ public class TestRecaptchaController : Custom.Hybrid.ApiTyped
   public async Task<IActionResult> Verify([FromBody] RecaptchaRequest request)
   {
     if (request == null || string.IsNullOrWhiteSpace(request.Token))
-    {
-      var errResponse = new { ok = false, error = "token_missing" }; 
-      
-      return Json(errResponse);
-    }
+      return BadRequest("token_missing");
+
     var remoteIp = System.Web.HttpContext.Current?.Request?.UserHostAddress;
+    var expectedHostname = System.Web.HttpContext.Current?.Request?.Url?.Host;
+    var minimumScore = request.MinimumScore > 0 ? request.MinimumScore : -1;
 
-    var validator = GetService<RecaptchaValidator>();
-    var result = await validator.ValidateAsync(token: request.Token, remoteIp: remoteIp, expectedHostname: null);
+    var result = await GetService<RecaptchaValidator>()
+      .ValidateAsync(
+        token: request.Token,
+        remoteIp: remoteIp,
+        minimumScore: minimumScore,
+        expectedHostname: expectedHostname);
 
-    var response = new
-    {
-      Success = result.Success,
-      score = result.Score,
-      demoHostname = result.Hostname,
-      error = result.Error,
-      errorCodes = result.ErrorCodes
-    };
-    return Json(response);
+    if (!result.Success)
+      return BadRequest(result.Error);
+
+    return Json(result);
   }
 }
 

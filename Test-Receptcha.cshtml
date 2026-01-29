@@ -40,20 +40,20 @@
           body: JSON.stringify({ token })
         })
       )
-      .then(r => r.json())
-      .then(result => {
-        if (result.Success) {
-          statusEl.textContent =
-            `✔ reCAPTCHA accepted (score: ${result.score ?? 'n/a'})`;
-          statusEl.style.color = 'green';
-        } else {
-          statusEl.textContent =
-            `✖ reCAPTCHA blocked (score: ${result.score ?? 'n/a'})`;
-          statusEl.style.color = 'red';
+      .then(async r => {
+        if (!r.ok) {
+          const error = await r.text();
+          throw new Error(error || 'captcha-failed');
         }
+        return r.json();
       })
-      .catch(() => {
-        statusEl.textContent = '✖ reCAPTCHA check failed';
+      .then(result => {
+        statusEl.textContent =
+          `✔ reCAPTCHA accepted (score: ${result.score ?? 'n/a'})`;
+        statusEl.style.color = 'green';
+      })
+      .catch(err => {
+        statusEl.textContent = `✖ reCAPTCHA blocked (${err?.message || 'error'})`;
         statusEl.style.color = 'red';
       });
   });

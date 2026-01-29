@@ -65,15 +65,18 @@
           body: JSON.stringify({ message, token })
         });
 
-        // Show quick result for the test
-        if (response.ok) {
-          status.textContent = "reCAPTCHA accepted ✔";
-          status.style.color = "green";
-          input.value = "";
-        } else {
-          status.textContent = "reCAPTCHA rejected ✖";
+        // Handle 400 errors properly
+        if (!response.ok) {
+          const error = await response.text();
+          status.textContent = `reCAPTCHA rejected ✖ (${error || response.status})`;
           status.style.color = "red";
+          return;
         }
+
+        // Success
+        status.textContent = "reCAPTCHA accepted ✔";
+        status.style.color = "green";
+        input.value = "";
       } catch {
         status.textContent = "Submission failed";
         status.style.color = "red";
