@@ -4,13 +4,17 @@ This is a simple **app extension** for 2sxc which integrates Google Recaptcha v3
 
 ## History
 
+### 2026-01-30
+
+1. 2dm: made demo code (Razor) a bit more compact
+
 ### 2026-01-29
 
 1. 2rb: adjusted license
 1. 2rb: added view and controller for documentation example
 1. 2rb: adjusted error handling in views & controller
 1. 2rb: added comprehensive code comments to RecaptchaValidator
-1. 2rb: added `HttpRquestHelper`
+1. 2rb: added `HttpRequestHelper`
 1. 2rb: shortened Code of tests
 
 ### 2026-01-28

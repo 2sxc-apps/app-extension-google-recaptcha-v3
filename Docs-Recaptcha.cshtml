@@ -4,7 +4,7 @@
   // Read site key
   var siteKey = Kit.SecureData.Parse(AllSettings.String("GoogleRecaptcha.SiteKey")).Value;
 
-  // Endpoint for DocsFormControllerHybrid (DemoFormControllerHybrid)
+  // WebApi Endpoint for DocsFormController, supporting Polymorph editions
   var submitUrl = Link.To(api: $"{MyView.Edition}/api/DocsForm/SubmitAsync");
 }
 
@@ -13,7 +13,7 @@
 
 @* Minimal visible demo with button to submit *@
 <button id="send-demo" class="btn btn-primary" type="button">
-  Run reCAPTCHA
+  Test ReCaptcha v3
 </button>
 
 @* Script to handle button click, get token, and send to API *@
@@ -23,7 +23,6 @@
     document.getElementById("send-demo")?.addEventListener("click", () => {
       grecaptcha.execute("@siteKey", { action: "submit" })
         .then(token =>
-        
           fetch("@submitUrl", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -31,16 +30,10 @@
           })
         )
         .then(async r => {
-          if (!r.ok) {
-            throw new Error( await r.text() || "captcha-failed");
-          }
+          if (!r.ok) throw new Error( await r.text() || "captcha-failed");
         })
-        .then(() => {
-          alert("reCAPTCHA accepted");
-        })
-        .catch(err => {
-          alert("reCAPTCHA failed: " + (err?.message || err));
-        });
+        .then(() => alert("reCAPTCHA accepted"))
+        .catch(err => alert("reCAPTCHA failed: " + (err?.message || err)));
     });
   })();
 </script>

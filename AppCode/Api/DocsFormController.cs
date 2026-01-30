@@ -31,8 +31,8 @@ public class DocsFormController : Custom.Hybrid.ApiTyped
     if (!result.Success)
       return BadRequest(result.Error);
 
-    // Your custom logic goes here (e.g., save the form, send email, etc.)
-    // Only reached when reCAPTCHA validation succeeded
+    // Continue if reCAPTCHA validation succeeded
+    // YOUR CUSTOM LOGIC goes here (e.g., save the form, send email, etc.)
 
     // Demo success response
     return Ok();
