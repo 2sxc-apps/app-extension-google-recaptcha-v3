@@ -7,6 +7,8 @@ This is a simple **app extension** for 2sxc which integrates Google Recaptcha v3
 ### 2026-01-30
 
 1. 2dm: made demo code (Razor) a bit more compact
+1. 2dm: updated `extension.json` definition to v01.00.00
+1. 2dm: made some internal objects internal so they don't bleed out
 
 ### 2026-01-29
 

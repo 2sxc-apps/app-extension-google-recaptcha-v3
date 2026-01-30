@@ -24,7 +24,7 @@ namespace AppCode.Extensions.GoogleRecaptchaV3
     public string Error { get; set; }
   }
 
-  public static class RecaptchaErrors
+  internal static class RecaptchaErrors
   {
     // Standard/known error codes used by this validator
     public const string MissingToken = "missing-token";

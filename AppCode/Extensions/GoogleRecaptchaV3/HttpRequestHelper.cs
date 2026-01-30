@@ -4,7 +4,7 @@ namespace AppCode.Extensions.GoogleRecaptchaV3
   /// Extension methods for HttpRequest to help with getting client IP
   /// this ensures that the code stays simple, but everything still works in both .NET Framework and .NET Core
   /// </summary>
-  public static class HttpRequestHelper
+  internal static class HttpRequestHelper
   {
 #if NETCOREAPP
 
